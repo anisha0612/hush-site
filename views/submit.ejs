@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/header.ejs'); -%>
+  <body>
+    <section class="hero is-bold is-medium mt-6">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title">
+            <span><i class="fas fa-lock fa-5x"></i></span>
+          </h1>
+          <h2 class="subtitle my-6">
+            Your Secret is safe with us.
+          </h2>
+          <form action="/submit" method="POST">
+            <div class="field">
+              <input
+                type="text"
+                class="input has-text-centered"
+                placeholder="Enter your secret"
+              />
+            </div>
+            <div class="field">
+              <button class="button" type="submit" name="button" value="submit">
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <%- include('partials/footer.ejs'); -%>
+  </body>
+</html>

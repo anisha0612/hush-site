@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/header.ejs'); -%>
+  <body>
+    <section class="container box">
+      <div class="columns">
+        <div class="column">
+          <h1 class="title has-text-centered">Register</h1>
+          <form action="/login" method="POST">
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control has-icons-left">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="example@gmail.com"
+                  required
+                />
+                <span class="icon is-small is-left">
+                  <i class="fa fa-envelope"></i
+                ></span>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Password</label>
+              <div class="control has-icons-left">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="*******"
+                  required
+                />
+                <span class="icon is-small is-left">
+                  <i class="fa fa-lock"></i
+                ></span>
+              </div>
+            </div>
+            <div class="field has-text-centered mt-6">
+              <button
+                class="button"
+                name="button"
+                type="submit"
+                value="register"
+              >
+                Register
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <%- include('partials/footer.ejs'); -%>
+  </body>
+</html>

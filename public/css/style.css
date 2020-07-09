@@ -1,0 +1,111 @@
+body,
+html {
+  background: linear-gradient(80deg, #127681, #10375c);
+  font-family: "Montserrat", sans-serif;
+}
+
+.title {
+  font-weight: 700;
+}
+
+/* navigation */
+.navbar {
+  background: linear-gradient(80deg, #3b5874, #0a474e);
+}
+
+.navbar-item p {
+  font-family: "Modak", cursive;
+  font-size: 2em;
+  color: #fff;
+}
+
+/* home page */
+
+.section {
+  display: grid;
+  place-items: center;
+}
+
+.container .image {
+  width: 23em;
+  height: 23em;
+}
+
+.section p {
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 700;
+  margin: 1em 0 0;
+}
+
+.button {
+  border: 1px solid gray;
+  background: transparent;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.button:hover,
+.button:active {
+  background-color: #ffffff;
+  color: rgb(37, 37, 37);
+  font-weight: 700;
+}
+
+/* login & register */
+.box {
+  width: 500px;
+  height: 450px;
+  background-color: #ffffff;
+  margin-top: 5em;
+}
+
+.field .button {
+  color: black;
+  font-weight: 700;
+}
+
+.field .button:hover,
+.button:active {
+  background-color: black;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* submit page */
+
+.hero .title,
+.subtitle {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.hero-body .container .field .input {
+  width: 70%;
+  margin-bottom: 1em;
+}
+.hero-body .container .field .button {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.hero-body .container .field .button:hover,
+.button:active {
+  background-color: #ffffff;
+  color: rgb(37, 37, 37);
+  font-weight: 700;
+}
+/* media queries */
+
+@media (max-width: 575.9px) {
+  .box {
+    margin: 1em 2em 1em 3em;
+    width: 80%;
+    height: 60%;
+  }
+  .button {
+    margin-top: 1em;
+    display: inline-block;
+  }
+}
