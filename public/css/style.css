@@ -4,6 +4,10 @@ html {
   font-family: "Montserrat", sans-serif;
 }
 
+.white {
+  color: #ffffff;
+}
+
 .title {
   font-weight: 700;
 }
@@ -96,6 +100,22 @@ html {
   color: rgb(37, 37, 37);
   font-weight: 700;
 }
+
+/* secrets page */
+#btn {
+  color: #ffffff;
+}
+#btn:hover,
+#btn:active {
+  background-color: #ffffff;
+  color: black;
+}
+#p-secret {
+  font-size: 1.5em;
+  font-weight: 200;
+  margin-bottom: 1em;
+}
+
 /* media queries */
 
 @media (max-width: 575.9px) {
