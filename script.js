@@ -1,6 +1,9 @@
 import express from "express";
 import ejs from "ejs";
 import mongoose from "mongoose";
+import encrypt from "mongoose-encryption";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
@@ -16,10 +19,13 @@ mongoose.connect("mongodb://localhost:27017/userDB", {
   useFindAndModify: false,
 });
 
-const userSchema = {
+const userSchema = new mongoose.Schema({
   email: String,
   password: String,
-};
+});
+
+const secret = process.env.LONG_STRING;
+userSchema.plugin(encrypt, { secret: secret, encryptedFields: ["password"] });
 
 const User = mongoose.model("User", userSchema);
 

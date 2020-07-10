@@ -8,6 +8,10 @@ html {
   color: #ffffff;
 }
 
+#blue {
+  color: #10375c;
+}
+
 .title {
   font-weight: 700;
 }
@@ -44,7 +48,9 @@ html {
 }
 
 .button {
-  border: 1px solid gray;
+  border: 1px solid #10375c;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
   background: transparent;
   color: #ffffff;
   font-weight: 700;
@@ -53,7 +59,9 @@ html {
 .button:hover,
 .button:active {
   background-color: #ffffff;
-  color: rgb(37, 37, 37);
+  box-shadow: 0px 10px 15px rgb(248, 239, 239);
+  transform: translateY(-5px);
+  color: #10375c;
   font-weight: 700;
 }
 
@@ -66,13 +74,13 @@ html {
 }
 
 .field .button {
-  color: black;
+  color: #10375c;
   font-weight: 700;
 }
 
 .field .button:hover,
 .button:active {
-  background-color: black;
+  background-color: #10375c;
   color: #ffffff;
   font-weight: 700;
 }
@@ -97,7 +105,7 @@ html {
 .hero-body .container .field .button:hover,
 .button:active {
   background-color: #ffffff;
-  color: rgb(37, 37, 37);
+  color: #10375c;
   font-weight: 700;
 }
 
@@ -108,7 +116,7 @@ html {
 #btn:hover,
 #btn:active {
   background-color: #ffffff;
-  color: black;
+  color: #10375c;
 }
 #p-secret {
   font-size: 1.5em;
