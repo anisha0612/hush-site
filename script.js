@@ -2,10 +2,12 @@ import express from "express";
 import ejs from "ejs";
 import mongoose from "mongoose";
 // import encrypt from "mongoose-encryption";
-import md5 from "md5";
+// import md5 from "md5";
+import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 dotenv.config();
 
+const saltRounds = 10;
 const app = express();
 
 app.set("view engine", "ejs");
@@ -49,8 +51,12 @@ app
   .post((req, res) => {
     const username = req.body.email;
     const password = req.body.password;
+    // using bcrypt with salt rounds and hashing
+    const hash = bcrypt.hashSync(password, saltRounds);
+    // using md5 hashing
+    // const password = md5(req.body.password);
     User.findOne(
-      ({ email: username, password: password },
+      ({ email: username, password: hash },
       (err, results) => {
         if (err) {
           console.log(err);
@@ -65,20 +71,23 @@ app
 
 app
   .route("/register")
-  //   .get((req, res) => {
-  //     res.render("register");
-  //   })
+  .get((req, res) => {
+    res.render("register");
+  })
   .post((req, res) => {
-    const newUser = new User({
-      email: req.body.email,
-      password: md5(req.body.password),
-    });
-    newUser.save((err) => {
-      if (!err) {
-        res.render("secrets");
-      } else {
-        console.log(err);
-      }
+    bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+      const newUser = new User({
+        email: req.body.email,
+        // password: md5(req.body.password),
+        password: hash,
+      });
+      newUser.save((err) => {
+        if (!err) {
+          res.render("secrets");
+        } else {
+          console.log(err);
+        }
+      });
     });
   });
 
