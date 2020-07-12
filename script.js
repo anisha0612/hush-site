@@ -1,18 +1,53 @@
 import express from "express";
 import ejs from "ejs";
 import mongoose from "mongoose";
-// import encrypt from "mongoose-encryption";
-// import md5 from "md5";
-import bcrypt from "bcrypt";
+import passport from "passport";
+import passportLocalMongoose from "passport-local-mongoose";
+import session from "express-session";
+import local from "passport-local";
 import dotenv from "dotenv";
+
 dotenv.config();
 
-const saltRounds = 10;
+const LocalStrategy = local.Strategy;
+
 const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+// local.strategy.js setup
+
+passport.use(
+  new LocalStrategy(function (username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        return done(null, false, { message: "Incorrect username." });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: "Incorrect password." });
+      }
+      return done(null, user);
+    });
+  })
+);
+
+// session configuration
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// configure passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // mongoose database connection
 
@@ -22,15 +57,22 @@ mongoose.connect("mongodb://localhost:27017/userDB", {
   useFindAndModify: false,
 });
 
+mongoose.set("useCreateIndex", true);
+
 const userSchema = new mongoose.Schema({
-  email: String,
+  username: String,
   password: String,
 });
 
-// const secret = process.env.LONG_STRING;
-// userSchema.plugin(encrypt, { secret: secret, encryptedFields: ["password"] });
+// passport plugin to mongoose schema
+userSchema.plugin(passportLocalMongoose);
 
 const User = mongoose.model("User", userSchema);
+
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // root route
 app
@@ -43,58 +85,58 @@ app
   });
 
 // login route
-app
-  .route("/login")
-  .get((req, res) => {
-    res.render("login");
-  })
-  .post((req, res) => {
-    const username = req.body.email;
-    const password = req.body.password;
-    // using bcrypt with salt rounds and hashing
-    const hash = bcrypt.hashSync(password, saltRounds);
-    // using md5 hashing
-    // const password = md5(req.body.password);
-    User.findOne(
-      ({ email: username, password: hash },
-      (err, results) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.render("secrets");
-        }
-      })
-    );
+// app
+//   .route("/login")
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+app.post("/login", (req, res) => {
+  passport.authenticate("local", {
+    successRedirect: res.render("secrets"),
+    failureRedirect: res.redirect("login"),
+    failureFlash: true,
   });
-
+});
 // register route
 
-app
-  .route("/register")
-  .get((req, res) => {
-    res.render("register");
-  })
-  .post((req, res) => {
-    bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-      const newUser = new User({
-        email: req.body.email,
-        // password: md5(req.body.password),
-        password: hash,
-      });
-      newUser.save((err) => {
-        if (!err) {
-          res.render("secrets");
-        } else {
-          console.log(err);
-        }
-      });
-    });
-  });
+// app
+//   .route("/register")
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+app.post("/register", (request, response) => {
+  User.register(
+    new User({ username: request.body.email }),
+    request.body.password,
+    function (err, user) {
+      if (err) {
+        console.log(err);
+        return response.render("register");
+      } else {
+        passport.authenticate("local", {
+          successRedirect: response.render("secrets"),
+          failureRedirect: response.redirect("register"),
+          failureFlash: true,
+        });
+      }
+    }
+  );
+});
+//logout
+app.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
 
 // secrets route
-app.route("/secrets").post((req, res) => {
-  req.body.button === "submit" ? res.render("submit") : res.render("home");
-});
+app
+  .route("/secrets")
+  .get((req, res) => {
+    //   res.isAuthenticated() ? res.render("secrets") : res.render("/login");
+  })
+  .post((req, res) => {
+    req.body.button === "submit" ? res.render("submit") : res.render("home");
+  });
 
 // submit
 
