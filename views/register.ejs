@@ -6,7 +6,32 @@
       <div class="columns">
         <div class="column">
           <h1 class="title has-text-centered">Register</h1>
+          <!-- <if(typeof errors!=="undefined") %> <for(let error of errors )%>
+          <div class="notification is-danger is-light">
+            <button
+              class="delete"
+              onclick="this.parentElement.style.display='none'"
+            ></button>
+            <p><error.msg%></p>
+          </div>
+          <> <> -->
+          <%- include('partials/messages.ejs'); -%>
           <form action="/register" method="POST">
+            <div class="field">
+              <label class="label">Name</label>
+              <div class="control has-icons-left">
+                <input
+                  class="input"
+                  type="text"
+                  name="name"
+                  placeholder="John Doe"
+                  required
+                />
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i
+                ></span>
+              </div>
+            </div>
             <div class="field">
               <label class="label">Email</label>
               <div class="control has-icons-left">
@@ -14,7 +39,7 @@
                   class="input"
                   type="email"
                   name="email"
-                  placeholder="example@gmail.com"
+                  placeholder="john.doe@gmail.com"
                   required
                 />
                 <span class="icon is-small is-left">
@@ -48,6 +73,14 @@
               </button>
             </div>
           </form>
+          <p class="mt-4">
+            Have an Account?<a
+              class="px-1"
+              href="/login"
+              style="text-decoration: underline;"
+              >Login</a
+            >
+          </p>
         </div>
       </div>
     </section>

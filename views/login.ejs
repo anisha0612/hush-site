@@ -2,10 +2,30 @@
 <html lang="en">
   <%- include('partials/header.ejs'); -%>
   <body>
-    <section class="container box">
+    <section class="container box pt-6">
       <div class="columns">
         <div class="column">
-          <h1 class="title has-text-centered">Login</h1>
+          <h1 class="title has-text-centered mt-6">Login</h1>
+          <!-- < if(error!='') %>
+          <div class="notification is-danger is-light">
+            <button
+              class="delete"
+              onclick="this.parentElement.style.display='none'"
+            ></button>
+            <p><error%></p>
+          </div>
+          < %> < if(typeof errors!=="undefined")%> <for(let error of
+          errors )%>
+          <div class="notification is-danger is-light">
+            <button
+              class="delete"
+              onclick="this.parentElement.style.display='none'"
+            ></button>
+            <p><error.msg%></p>
+          </div>
+          <><> -->
+          <%- include('partials/messages.ejs'); -%>
+
           <form action="/login" method="POST">
             <div class="field">
               <label class="label">Email</label>

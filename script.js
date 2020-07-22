@@ -1,145 +1,71 @@
 import express from "express";
-import ejs from "ejs";
+import indexRoute from "./routes/index.js";
 import mongoose from "mongoose";
-import passport from "passport";
-import passportLocalMongoose from "passport-local-mongoose";
+import { User, Post } from "./models/User.js";
+import flash from "connect-flash";
 import session from "express-session";
-import local from "passport-local";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-const LocalStrategy = local.Strategy;
+import passport from "passport";
 
 const app = express();
 
+import myFunc from "./config/passport.js";
+myFunc(passport);
+
+// ejs
 app.set("view engine", "ejs");
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
-// local.strategy.js setup
+// Body-parser
+app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
 
-passport.use(
-  new LocalStrategy(function (username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
-      if (err) {
-        return done(err);
-      }
-      if (!user) {
-        return done(null, false, { message: "Incorrect username." });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: "Incorrect password." });
-      }
-      return done(null, user);
-    });
-  })
-);
-
-// session configuration
+// Express session
 app.use(
   session({
-    secret: process.env.SECRET,
+    secret: "secret",
     resave: false,
     saveUninitialized: false,
   })
 );
-
-// configure passport
+// configure passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-// mongoose database connection
+// connect flash
+app.use(flash());
 
-mongoose.connect("mongodb://localhost:27017/userDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
+// global variables
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
+  res.locals.user = req.user || null;
+  next();
 });
+
+// use static files(stylesheets)
+app.use(express.static("public"));
+// routes
+app.use("/", indexRoute);
+
+// passport config
+
+// import "x./config/passport.js";
+
+// database connection
+
+mongoose
+  .connect("mongodb://localhost:27017/userDB", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
+  .then(() => console.log("MongoDb connected."))
+  .catch((err) => console.log(err));
 
 mongoose.set("useCreateIndex", true);
 
-const userSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-});
+const PORT = process.env.PORT || 3100;
 
-// passport plugin to mongoose schema
-userSchema.plugin(passportLocalMongoose);
-
-const User = mongoose.model("User", userSchema);
-
-passport.use(User.createStrategy());
-
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-// root route
-app
-  .route("/")
-  .get((req, res) => {
-    res.render("home");
-  })
-  .post((req, res) => {
-    req.body.button === "login" ? res.render("login") : res.render("register");
-  });
-
-// login route
-// app
-//   .route("/login")
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-app.post("/login", (req, res) => {
-  passport.authenticate("local", {
-    successRedirect: res.render("secrets"),
-    failureRedirect: res.redirect("login"),
-    failureFlash: true,
-  });
-});
-// register route
-
-// app
-//   .route("/register")
-app.get("/register", (req, res) => {
-  res.render("register");
-});
-app.post("/register", (request, response) => {
-  User.register(
-    new User({ username: request.body.email }),
-    request.body.password,
-    function (err, user) {
-      if (err) {
-        console.log(err);
-        return response.render("register");
-      } else {
-        passport.authenticate("local", {
-          successRedirect: response.render("secrets"),
-          failureRedirect: response.redirect("register"),
-          failureFlash: true,
-        });
-      }
-    }
-  );
-});
-//logout
-app.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
-});
-
-// secrets route
-app
-  .route("/secrets")
-  .get((req, res) => {
-    //   res.isAuthenticated() ? res.render("secrets") : res.render("/login");
-  })
-  .post((req, res) => {
-    req.body.button === "submit" ? res.render("submit") : res.render("home");
-  });
-
-// submit
-
-app.listen(3100, () => {
-  console.log(`Server running at port 3100`);
+app.listen(PORT, () => {
+  console.log(`Server running at ${PORT}`);
 });

@@ -1,4 +1,8 @@
 node_modules
 public/css/extra.css
 .env
-alter.js
+test/alter.js
+test/test.js
+test/prev.js
+
+routes/users.js

@@ -5,33 +5,28 @@
     <section class="section">
       <div class="container">
         <figure class="image">
-          <img src="/images/chat-bubble.png" alt="chat" />
+          <img src="/images/diary.png" alt="chat" />
         </figure>
-      </div>
-      <p class="subtitle">
-        "Journaling is like whispering to one’s self and listening at the same
-        time."
-      </p>
-      <form action="/" method="POST">
-        <div class="has-text-centered">
-          <button
-            class="button mx-4 px-5"
-            name="button"
-            type="submit"
-            value="login"
-          >
-            Login
-          </button>
-          <button
-            class="button mx-4 px-4"
-            name="button"
-            type="submit"
-            value="register"
-          >
-            Register
-          </button>
+        <div class="container">
+          <q class="subtitle">
+            Journaling is like whispering to one’s self and listening at the
+            same time.
+          </q>
+          <figcaption class="white mb-4">&mdash; An Aspiring Writer</figcaption>
+          <form action="/" method="POST">
+            <div class="has-text-centered mt-6">
+              <button
+                class="button mx-4 px-4"
+                name="button"
+                type="submit"
+                value="register"
+              >
+                Register
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </section>
     <%- include('partials/footer.ejs'); -%>
   </body>

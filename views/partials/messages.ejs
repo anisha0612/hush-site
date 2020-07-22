@@ -1,0 +1,25 @@
+<% if(typeof errors!=="undefined") {%> <%for(let error of errors ){%>
+<div class="notification is-danger is-light">
+  <button
+    class="delete"
+    onclick="this.parentElement.style.display='none'"
+  ></button>
+  <p><%=error.msg%></p>
+</div>
+<% }%> <%}%> <% if(error!='') {%>
+<div class="notification is-danger is-light">
+  <button
+    class="delete"
+    onclick="this.parentElement.style.display='none'"
+  ></button>
+  <p><%=error%></p>
+</div>
+<% } %> <% if(success_msg!='') {%>
+<div class="notification is-success is-light">
+  <button
+    class="delete"
+    onclick="this.parentElement.style.display='none'"
+  ></button>
+  <p><%=success_msg%></p>
+</div>
+<% } %>

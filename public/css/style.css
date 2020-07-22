@@ -1,15 +1,25 @@
+:root {
+  --green-color: #14b1ab;
+  --yellow-color: #f9d56e;
+  --white-color: #ffffff;
+}
+.buttons > a.button {
+  background: #fcfc9d;
+  /* background-color: #f3ecc2; */
+}
+
+.buttons > a.button:hover {
+  color: var(--green-color);
+}
+
 body,
 html {
-  background: linear-gradient(80deg, #127681, #10375c);
+  background: linear-gradient(80deg, #6ebfb5, #24a19c);
   font-family: "Montserrat", sans-serif;
 }
 
 .white {
-  color: #ffffff;
-}
-
-#blue {
-  color: #10375c;
+  color: var(--white-color);
 }
 
 .title {
@@ -18,70 +28,95 @@ html {
 
 /* navigation */
 .navbar {
-  background: linear-gradient(80deg, #3b5874, #0a474e);
+  background: linear-gradient(80deg, var(--green-color), var(--yellow-color));
+}
+
+.navbar-item {
+  text-decoration: none;
 }
 
 .navbar-item p {
   font-family: "Modak", cursive;
   font-size: 2em;
-  color: #fff;
+  color: var(--white-color);
 }
 
 /* home page */
-
 .section {
-  display: grid;
-  place-items: center;
+  margin-left: 10%;
 }
 
-.container .image {
-  width: 23em;
-  height: 23em;
+.container > .image {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 20px 30px 0 0;
+  width: 46%;
+  width: 20em;
+  height: 20em;
+}
+.container > .container {
+  width: 46%;
+  margin-top: 3em;
+  vertical-align: middle;
+  display: inline-block;
 }
 
-.section p {
-  color: #ffffff;
-  text-align: center;
+.section q {
   font-size: 1.5em;
   font-weight: 700;
   margin: 1em 0 0;
 }
 
 .button {
-  border: 1px solid #10375c;
+  border: 1px solid var(--yellow-color);
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease 0s;
   background: transparent;
-  color: #ffffff;
+  color: var(--white-color);
   font-weight: 700;
 }
 
 .button:hover,
 .button:active {
-  background-color: #ffffff;
+  background-color: var(--white-color);
   box-shadow: 0px 10px 15px rgb(248, 239, 239);
   transform: translateY(-5px);
-  color: #10375c;
+  color: var(--green-color);
   font-weight: 700;
 }
 
 /* login & register */
 .box {
   width: 500px;
-  height: 450px;
-  background-color: #ffffff;
+  height: 550px;
+  background-color: #f3ecc2;
   margin-top: 5em;
 }
 
+.box .title,
+.label,
+a {
+  color: var(--green-color);
+}
+
+a:hover {
+  color: var(--green-color);
+  font-weight: 600;
+}
+
+.notification {
+  font-size: 0.75em;
+}
+
 .field .button {
-  color: #10375c;
+  color: var(--green-color);
   font-weight: 700;
 }
 
 .field .button:hover,
 .button:active {
-  background-color: #10375c;
-  color: #ffffff;
+  background-color: var(--yellow-color);
+  color: var(--white-color);
   font-weight: 700;
 }
 
@@ -89,7 +124,7 @@ html {
 
 .hero .title,
 .subtitle {
-  color: #ffffff;
+  color: var(--white-color);
   font-weight: 700;
 }
 
@@ -98,34 +133,44 @@ html {
   margin-bottom: 1em;
 }
 .hero-body .container .field .button {
-  color: #ffffff;
+  color: var(--white-color);
   font-weight: 700;
 }
 
 .hero-body .container .field .button:hover,
 .button:active {
-  background-color: #ffffff;
-  color: #10375c;
+  background-color: var(--white-color);
+  color: var(--yellow-color);
   font-weight: 700;
 }
 
 /* secrets page */
 #btn {
-  color: #ffffff;
+  color: var(--white-color);
 }
 #btn:hover,
 #btn:active {
-  background-color: #ffffff;
-  color: #10375c;
+  background-color: var(--white-color);
+  color: var(--yellow-color);
 }
 #p-secret {
   font-size: 1.5em;
   font-weight: 200;
   margin-bottom: 1em;
 }
+#post {
+  width: 300px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin-bottom: 2em;
+}
+.level-right > .level-item {
+  color: #000000;
+}
 
 /* media queries */
-
 @media (max-width: 575.9px) {
   .box {
     margin: 1em 2em 1em 3em;
@@ -135,5 +180,36 @@ html {
   .button {
     margin-top: 1em;
     display: inline-block;
+  }
+}
+
+@media (max-width: 880px) and (min-width: 741px) {
+  .section {
+    margin-left: 5%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .navbar-menu {
+    background-color: #f3ecc2;
+  }
+  .buttons > a.button {
+    background-color: var(--white-color);
+    color: var(--green-color);
+  }
+}
+
+@media (max-width: 740px) {
+  .section {
+    margin-left: auto;
+  }
+  .container > .container {
+    display: block;
+    text-align: center;
+  }
+  .container > .image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
